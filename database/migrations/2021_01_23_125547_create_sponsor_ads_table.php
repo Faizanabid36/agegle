@@ -15,6 +15,7 @@ class CreateSponsorAdsTable extends Migration
     {
         Schema::create('sponsor_ads', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('profile_id');
             $table->string('ad_url');
             $table->string('ad_attachment');
             $table->timestamps();
