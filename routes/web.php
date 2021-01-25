@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('website.home');
+})->name('home_page');
 
 Auth::routes(['register' => false]);
 
@@ -23,4 +23,9 @@ Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::resource('pages',\App\Http\Controllers\PageController::class);
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/create', [App\Http\Controllers\HomeController::class, 'create'])->name('create');
+Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+
+
+
