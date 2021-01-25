@@ -16,6 +16,11 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
+            $table->integer('started_year');
+            $table->integer('ended_year')->nullable();
+            $table->string('email')->nullable();
+            $table->string('token');
             $table->timestamps();
         });
     }

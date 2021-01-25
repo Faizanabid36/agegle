@@ -16,9 +16,8 @@ class CreateProfileExtrasTable extends Migration
         Schema::create('profile_extras', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('profile_id');
-            $table->integer('age');
+            $table->smallInteger('age');
             $table->string('attachment_url')->nullable();
-            $table->string('token');
             $table->timestamps();
         });
     }

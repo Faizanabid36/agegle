@@ -9,6 +9,8 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function extra()
     {
         return $this->hasMany(ProfileExtra::class);
@@ -18,4 +20,5 @@ class Profile extends Model
     {
         return $this->hasOne(SponsorAd::class);
     }
+
 }
