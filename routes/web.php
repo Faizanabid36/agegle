@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('website.home');
-})->name('home_page');
+Route::get('/', [App\Http\Controllers\ProfileController::class,'home_page'])->name('home_page');
 
 Auth::routes(['register' => false]);
 

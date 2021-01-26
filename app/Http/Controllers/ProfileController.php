@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use App\Models\Profile;
 use App\Models\ProfileExtra;
 use Illuminate\Http\Request;
@@ -32,5 +33,12 @@ class ProfileController extends Controller
         $profile = Profile::whereId($id)->firstOrFail();
         $profile_extras  = ProfileExtra::whereProfileId($profile->id)->paginate(11);
         return view('website.view', compact('profile','profile_extras'));
+    }
+
+
+    public function home_page()
+    {
+        $pages = Profile::paginate(12);
+        return view('website.home',compact('pages'));
     }
 }

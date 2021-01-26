@@ -1,6 +1,5 @@
+@include('website_layouts.header')
+@yield('content')
+@include('website_layouts.footer')
 
-    @include('website_layouts.header')
-    @yield('content')
-    @include('website_layouts.footer')
-  
 

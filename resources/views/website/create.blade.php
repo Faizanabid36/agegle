@@ -13,24 +13,21 @@
                         <form id="submit_form" action="{{route('store')}}" method="POST">
                             @csrf
                             <div class="">
-                                <div class="content mt-5 mx-auto">
+                                <div class="col-md-12 mt-5 mx-auto">
                                     <input name="name" class="input" id="form-one" type="text"
                                            placeholder="Person Name">
-                                    <span class="border"></span>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-md-6 col-lg-6 ">
                                         <div class="content mt-5 mx-auto">
                                             <input name="started_year" class="input" id="form-two" min="1900"
                                                    type="number" placeholder="Life Started Year">
-                                            <span class="border"></span>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-md-6 col-lg-6 ">
                                         <div class="content mt-5 mx-auto">
                                             <input name="ended_year" class="input" id="form-three" type="text"
                                                    placeholder="Life Ended Year (optional)">
-                                            <span class="border"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +46,6 @@
                                         <div class="content mt-5 mx-auto">
                                             <input name="email" class="input" id="form-four" type="email"
                                                    placeholder="Email Address (optional)">
-                                            <span class="border"></span>
                                         </div>
                                     </div>
                                 </div>
