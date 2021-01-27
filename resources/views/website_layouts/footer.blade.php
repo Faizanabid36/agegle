@@ -1,5 +1,17 @@
-<footer>
-    <div style="padding: 40px 0px">
+<style>
+    .footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: white;
+   color: white;
+   text-align: center;
+}
+</style>
+
+<footer class="footer">
+    <div style="padding: 21px 0px">
         <div class="container">
             <div class="row">
                 <div class="col-xs-3 col-md-3 col-md-3">
