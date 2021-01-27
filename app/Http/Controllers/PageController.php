@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Profile;
+use App\Models\ProfileExtra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -40,9 +42,34 @@ class PageController extends Controller
         return view('pages.edit', compact('page'));
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         Page::destroy($id);
         return redirect()->route('admin.pages.index')->withSuccess('Page Deleted Successfully');
+    }
+
+
+    public function profiles()
+    {
+        $profiles = Profile::paginate(15);
+        return view('pages.profiles', compact('profiles'));
+    }
+
+    public function delete_profile($id)
+    {
+        Profile::whereId($id)->delete();
+        ProfileExtra::whereProfileId($id)->delete();
+        return back()->withSuccess('Profile Deleted Successfully');
+    }
+
+    public function add_sponsor($id)
+    {
+        $profile = Profile::firstOrFail();
+        return view('pages.add_sponsor', compact('profile'));
+    }
+
+    public function store_sponsor($id)
+    {
+
     }
 }

@@ -19,12 +19,17 @@ Auth::routes(['register' => false]);
 
 Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::resource('pages', \App\Http\Controllers\PageController::class);
+    Route::get('profiles', [\App\Http\Controllers\PageController::class,'profiles'])->name('profiles');
+    Route::get('add_sponsor/{id}', [\App\Http\Controllers\PageController::class,'add_sponsor'])->name('add_sponsor');
+    Route::post('store_sponsor/{id}', [\App\Http\Controllers\PageController::class,'store_sponsor'])->name('store_sponsor');
+    Route::get('profile/delete/{id}', [\App\Http\Controllers\PageController::class,'delete_profile'])->name('profile.delete');
 });
 
 Route::get('/create', [App\Http\Controllers\ProfileController::class, 'create'])->name('create');
 Route::post('/create', [App\Http\Controllers\ProfileController::class, 'store'])->name('store');
 
-Route::get('view/{id}', [App\Http\Controllers\ProfileController::class, 'view'])->name('view');
+Route::get('view/{slug}', [App\Http\Controllers\ProfileController::class, 'view'])->name('view');
+Route::post('add_image/{slug}/{age_id}', [App\Http\Controllers\ProfileController::class, 'add_image'])->name('add_image');
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
