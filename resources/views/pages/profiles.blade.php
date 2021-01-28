@@ -39,7 +39,7 @@
                                 <td class="d-flex">
                                     @if($profile->is_sponsored)
                                         <button class="btn btn-success ml-3">
-                                            <a class="text-white" href="{{route('admin.pages.edit',$profile->id)}}">Remove
+                                            <a class="text-white" href="{{route('admin.remove_sponsor',$profile->id)}}">Remove
                                                 Sponsor</a>
                                         </button>
                                     @else

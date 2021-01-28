@@ -7,14 +7,14 @@
             <div class="row">
                 @if($profile->is_sponsored)
                     <div class="col-xs-4 col-md-3">
-                        <a href="">
+                        <a href="{{$profile->sponsor_ad->ad_url}}">
                             <img style="height: 170px;width: 240px;"
-                                 src="{{asset('website/assets/images/img-02.jpg')}}" alt=""
+                                 src="{{$profile->sponsor_ad->ad_attachment}}" alt=""
                                  class="img-responsive">
                         </a>
                         <div style="margin-left: 10px;">
                             <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">Sponsor Ad</h4>
-                            <p>Sponsor ads page</p>
+                            <p>{{$profile->sponsor_ad->ad_title}}</p>
                         </div>
                     </div>
                 @endif

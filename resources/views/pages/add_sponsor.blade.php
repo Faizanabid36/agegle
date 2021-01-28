@@ -11,22 +11,28 @@
                     </div>
                 @endif
                 <div class="mb-5">
-                    <h3 class="float-left">New Page</h3>
+                    <h3 class="float-left">New Ad</h3>
                 </div>
                 <div class="mt-5">
                     <div class="card">
                         <div class="card-header">
-                            <h1>Create New Page</h1>
+                            <h1>Add Sponsor ad to Profile: <u>{{$profile->name}}</u></h1>
                         </div>
                         <div class="card-body">
                             <form method="post" enctype="multipart/form-data"
                                   action="{{route('admin.store_sponsor',$profile->id)}}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="title">Sponsor title</label>
-                                    <input name="title" required type="text"
+                                    <label for="ad_title">Sponsor title</label>
+                                    <input name="ad_title" required type="text"
                                            class="form-control"
-                                           id="title" placeholder="Enter title">
+                                           id="ad_title" placeholder="Enter title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ad_url">Sponsor URL</label>
+                                    <input name="ad_url" required type="text"
+                                           class="form-control"
+                                           id="ad_url" placeholder="Enter URL">
                                 </div>
                                 <div class="form-group">
                                     <label for="icon">Choose Image</label>

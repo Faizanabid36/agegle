@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Page;
 use App\Models\Profile;
 use App\Models\ProfileExtra;
+use App\Models\SponsorAd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -68,8 +69,24 @@ class PageController extends Controller
         return view('pages.add_sponsor', compact('profile'));
     }
 
-    public function store_sponsor($id)
+    public function remove_sponsor($id)
     {
+        Profile::whereId($id)->update(['is_sponsored' => 0]);
+        SponsorAd::whereProfileId($id)->delete();
+        return back()->withSuccess('Sponsor Removed Successfully');
+    }
 
+    public function store_sponsor(Request $request, $id)
+    {
+        Profile::whereId($id)->update(['is_sponsored' => 1]);
+        $fileName = time() . '.' . $request->pic->getClientOriginalExtension();
+        $request->pic->move(public_path('sponsors/' . $id . '/'), $fileName);
+        $request->merge(['ad_attachment' => asset('sponsors/' . $id . '/' . $fileName)]);
+        SponsorAd::updateOrCreate([
+            'profile_id' => $id
+        ],
+            $request->except('_token', 'pic')
+        );
+        return back()->withSuccess('Sponsor Added Successfully');
     }
 }
