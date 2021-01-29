@@ -34,6 +34,7 @@ Route::post('add_image/{slug}/{age_id}', [App\Http\Controllers\ProfileController
 
 Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::get('delete_profile/{slug}/{token}', [App\Http\Controllers\ProfileController::class, 'delete_profile'])->name('delete_profile');
 
 
 

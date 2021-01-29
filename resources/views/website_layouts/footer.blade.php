@@ -1,14 +1,14 @@
-<style>
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: white;
-        color: white;
-        text-align: center;
-    }
-</style>
+{{--<style>--}}
+{{--    .footer {--}}
+{{--        position: fixed;--}}
+{{--        left: 0;--}}
+{{--        top: 100vh;--}}
+{{--        width: 100%;--}}
+{{--        background-color: white;--}}
+{{--        color: white;--}}
+{{--        text-align: center;--}}
+{{--    }--}}
+{{--</style>--}}
 
 <footer class="footer">
     <div style="padding: 21px 0px">
@@ -65,8 +65,25 @@
     </div>
 </footer>
 <script>
-    $(document).ready(function (){
-        $('#submit_form_button').click(function (e){
+    $(document).ready(function () {
+        let page = 2;
+        $('#see_more').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: "?page=" + page,
+                success: function (data) {
+                    page += 1;
+                    if (data.html == 0) {
+                        alert('No More Data Display')
+                    } else {
+                        $('#content').append($(data.html))
+                    }
+                }, error: function (data) {
+                    console.log(data)
+                },
+            })
+        })
+        $('#submit_form_button').click(function (e) {
             e.preventDefault()
             $('#submit_form').submit()
         })

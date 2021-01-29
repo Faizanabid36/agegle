@@ -5,7 +5,7 @@
     <div class="section-container">
         <div class="container">
             @if(count($pages)>0)
-                <div class="row">
+                <div class="row" id="content">
                     @foreach($pages as $page)
                         <div class="col-xs-4 col-md-3">
                             <a href="{{route('view',$page->slug)}}"><img src="{{$page->extra->first()->attachment_url}}" alt="{{$page->slug}}" class="img-responsive"></a>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-12 col-md-12">
-                        <h3 class="text-center txt txt1 ">See More</h3>
+                        <h3 class="text-center txt txt1 " id="see_more">See More</h3>
                     </div>
                 </div>
             @else
