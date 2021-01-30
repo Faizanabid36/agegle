@@ -27,7 +27,6 @@ class PageController extends Controller
         $this->validate($request, [
             'title' => 'required|max:50',
             'pic' => 'required|max:2048',
-            'body_html' => 'required|min:20|max:1000'
         ]);
         $request->merge(['slug' => Str::slug($request->get('title'))]);
         $fileName = $request->get('slug') . '.' . $request->pic->getClientOriginalExtension();
@@ -45,7 +44,15 @@ class PageController extends Controller
 
     public function update(Request $request, $id)
     {
-        Page::destroy($id);
+        $this->validate($request, [
+            'title' => 'required|max:50',
+        ]);
+        if (isset($request->pic)) {
+            $fileName = time() . '.' . $request->pic->getClientOriginalExtension();
+            $request->pic->move(public_path('pages'), $fileName);
+            $request->merge(['page_icon' => asset('pages/' . $fileName)]);
+        }
+        Page::whereId($id)->update($request->except('_token', 'pic','_method'));
         return redirect()->route('admin.pages.index')->withSuccess('Page Deleted Successfully');
     }
 

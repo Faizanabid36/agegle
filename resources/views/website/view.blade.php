@@ -4,7 +4,7 @@
     <body>
     <div class="section-container">
         <div class="container">
-            <div class="row">
+            <div class="row" id="content">
                 @if($profile->is_sponsored)
                     <div class="col-xs-4 col-md-3">
                         <a href="{{$profile->sponsor_ad->ad_url}}">
@@ -25,7 +25,8 @@
 
                         <div style="margin-left: 10px; margin-right: 10px">
                             @if($profile_extra->attachment_url==asset('icons/unavailable.jpg'))
-                                <img src="{{asset('website/assets/images/arrow.svg')}}" name="pic"
+                                <img onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"
+                                     src="{{asset('website/assets/images/arrow.svg')}}" name="pic"
                                      id="{{$profile_extra->id}}" class="picture"
                                      height="20px" width="20px" style="float: right">
                                 <form id="add_image-{{$profile_extra->id}}" enctype="multipart/form-data"
@@ -45,7 +46,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-md-12">
-                    <h3 class="text-center txt txt1 ">See More</h3>
+                    <h3 class="text-center txt txt1 " id="see_more">See More</h3>
                 </div>
             </div>
         </div>
@@ -65,5 +66,13 @@
                 })
             });
         });
+        function inp(e)
+        {
+            $(`#fileinput-${e.id}`).trigger('click');
+            let id = e.id;
+            $(`#fileinput-${id}`).change(function (e) {
+                $(`#add_image-${id}`).submit()
+            })
+        }
     </script>
 @endsection

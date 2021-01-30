@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\ProfileController::class,'home_page'])->name('home_page');
+Route::get('/home', [App\Http\Controllers\ProfileController::class,'home_page'])->name('home_page');
 
 Auth::routes(['register' => false]);
 
@@ -26,14 +27,14 @@ Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::get('profile/delete/{id}', [\App\Http\Controllers\PageController::class,'delete_profile'])->name('profile.delete');
 });
 
-Route::get('/create', [App\Http\Controllers\ProfileController::class, 'create'])->name('create');
+Route::get('/create-name', [App\Http\Controllers\ProfileController::class, 'create'])->name('create');
 Route::post('/create', [App\Http\Controllers\ProfileController::class, 'store'])->name('store');
 
 Route::get('view/{slug}', [App\Http\Controllers\ProfileController::class, 'view'])->name('view');
 Route::post('add_image/{slug}/{age_id}', [App\Http\Controllers\ProfileController::class, 'add_image'])->name('add_image');
 
-Route::get('/about', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
-Route::get('/contact', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
+Route::get('/about-us', [App\Http\Controllers\HomeController::class, 'about'])->name('about');
+Route::get('/contact-us', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::get('delete_profile/{slug}/{token}', [App\Http\Controllers\ProfileController::class, 'delete_profile'])->name('delete_profile');
 
 

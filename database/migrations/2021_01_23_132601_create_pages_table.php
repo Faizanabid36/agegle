@@ -18,7 +18,6 @@ class CreatePagesTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('page_icon');
-            $table->longText('body_html');
             $table->timestamps();
         });
     }

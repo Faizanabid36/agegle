@@ -13,9 +13,13 @@ class ProfileController extends Controller
 {
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|unique:profiles',
+            'started_year' => 'required'
+        ]);
         $ended_year = (integer)!is_null($request->ended_year) ? $request->ended_year : now()->format('Y');
         if ($ended_year < $request->started_year)
-            return back()->withError('Ended Date Should be Greater Than Started Date');
+            return back()->withErrors(['Ended Date Should be Greater Than Started Date']);
         $request->merge(['token' => Str::random('10'), 'slug' => Str::slug($request->name)]);
         $profile = Profile::create($request->except('_token'));
         $age = $ended_year - $request->started_year;
@@ -44,8 +48,39 @@ class ProfileController extends Controller
     public function view($slug)
     {
         $profile = Profile::whereSlug($slug)->firstOrFail();
-        $count = $profile->is_sponsored?11:12;
-        $profile_extras = ProfileExtra::whereProfileId($profile->id)->orderBy('created_at', 'ASC')->paginate($count);
+        $count = $profile->is_sponsored ? 11 : 12;
+        $profile_extras = ProfileExtra::whereProfileId($profile->id)->latest()->paginate($count);
+        if (\request()->ajax()) {
+            $profile_extras = ProfileExtra::whereProfileId($profile->id)->latest()->paginate($count);
+            $html = '';
+            foreach ($profile_extras as $page) {
+                $html .= '<div class="col-xs-4 col-md-3">';
+                $html .= '<img style="height: 170px;width: 240px;" src="' . $page->attachment_url . '"';
+                $html .= 'class="img-responsive">';
+
+                $html .= '<div style="margin-left: 10px; margin-right: 10px">';
+                if ($page->attachment_url == asset('icons/unavailable.jpg')) {
+                    $html .= '<img onclick="inp(this)" onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"';
+                    $html .= 'src="' . asset('website/assets/images/arrow.svg') . '" name="pic"';
+                    $html .= 'id="' . $page->id . '" class="picture"';
+                    $html .= 'height="20px" width="20px" style="float: right">';
+                    $html .= '<form id="add_image-' . $page->id . '" enctype="multipart/form-data"';
+                    $html .= 'action="' . route('add_image', [$profile->slug, $page->id]) . '"';
+                    $html .= 'method="POST">';
+                    $html .= csrf_field();
+                    $html .= '<input class="fileinput" id="fileinput-' . $page->id . '" type="file"';
+                    $html .= 'name="fileinput" style="display:none"';
+                    $html .= 'style="visibility: hidden;"/>';
+                    $html .= '</form>';
+
+                }
+                $html .= '<h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">' . $profile->name . '</h4>';
+                $html .= '<p>' . $page->age . ' of ' . count($profile->extra) . ' years</p>';
+                $html .= '</div>';
+                $html .= '</div>';
+            }
+            return compact('profile', 'profile_extras', 'html');
+        }
         return view('website.view', compact('profile', 'profile_extras'));
     }
 

@@ -17,10 +17,5 @@
         <label for="icon">Choose Icon</label>
         <input type="file" class="form-control" name="pic" id="icon" placeholder="Choose File">
     </div>
-    <div class="form-group">
-        <label for="body_html">Enter Content</label>
-        <textarea class="form-control" name="body_html" id="body_html" rows="5"
-                  placeholder="Enter the content">{{$data=='update'?$page->body_html:''}}</textarea>
-    </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>

@@ -102,7 +102,7 @@
     </div>
 
     <div class="col-xs-12 col-md-4">
-        <img src="{{asset('website/assets/images/logo.PNG')}}" alt="" class="img-responsive">
+        <img width="225" style="margin: 50px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt="" class="img-responsive">
     </div>
     <div class="col-xs-12 col-md-4">
 
