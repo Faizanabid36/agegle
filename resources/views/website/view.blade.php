@@ -1,16 +1,26 @@
 @extends('website_layouts.main')
 
 @section('content')
+<style>
+    .zoom {
+  transition: transform .8s;
+}
+    .zoom:hover {
+  -ms-transform: scale(1.5); /* IE 9 */
+  -webkit-transform: scale(1.5); /* Safari 3-8 */
+  transform: scale(1.2); 
+}
+</style>
     <body>
     <div style="padding: 25px 0px">
         <div class="container" style="padding-bottom: 110px">
             <div class="row" id="content">
                 @if($profile->is_sponsored)
-                    <div class="col-xs-4 col-md-3">
+                    <div class="col-xs-6 col-md-3">
                         <a href="{{$profile->sponsor_ad->ad_url}}">
                             <img style="height: 170px;width: 240px;"
                                  src="{{$profile->sponsor_ad->ad_attachment}}" alt=""
-                                 class="img-responsive">
+                                 class="img-responsive zoom">
                         </a>
                         <div style="margin-left: 10px;">
                             <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">Sponsor Ad</h4>
@@ -19,15 +29,15 @@
                     </div>
                 @endif
                 @foreach($profile_extras as $profile_extra)
-                    <div class="col-xs-4 col-md-3">
+                    <div class="col-xs-6 col-md-3">
                         <img style="height: 170px;width: 240px;" src="{{$profile_extra->attachment_url}}"
-                             class="img-responsive">
+                             class="img-responsive zoom">
 
                         <div style="margin-left: 10px; margin-right: 10px">
                             @if($profile_extra->attachment_url==asset('icons/unavailable.jpg'))
                                 <img onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"
                                      src="{{asset('website/assets/images/arrow.svg')}}" name="pic"
-                                     id="{{$profile_extra->id}}" class="picture"
+                                     id="{{$profile_extra->id}}" class="picture "
                                      height="20px" width="20px" style="float: right">
                                 <form id="add_image-{{$profile_extra->id}}" enctype="multipart/form-data"
                                       action="{{route('add_image',[$profile->slug,$profile_extra->id])}}"
@@ -38,8 +48,10 @@
                                            style="visibility: hidden;"/>
                                 </form>
                             @endif
+                            <div style="text-align: left">
                             <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">{{$profile->name}}</h4>
                             <p>Age {{$profile_extra->age}} {{($profile_extra->age +(int)$profile->started_year)}}</p>
+                        </div>
                         </div>
                     </div>
                     @endforeach
