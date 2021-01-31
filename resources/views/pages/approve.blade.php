@@ -8,7 +8,8 @@
                     <h3 class="float-left">Pages</h3>
                     <div class="float-right" style="width:40%">
                         <form action="">
-                            <input class="rounded-lg" style="width: 80%" name="search" placeholder="Search By Profile Name">
+                            <input class="rounded-lg" style="width: 80%" name="search"
+                                   placeholder="Search By Profile Name">
                             <button type="submit" class="btn btn-sm btn-primary"> Search</button>
                         </form>
                     </div>
@@ -24,38 +25,26 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Link</th>
-                            <th scope="col">Ad attached</th>
+                            <th scope="col">Link to Profile</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Preview</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($profiles as $profile)
+                        @foreach($images as $image)
                             <tr>
                                 <th scope="row">{{$loop->iteration}}</th>
-                                <td>{{$profile->name}}</td>
-                                <td><a href="{{route('view',$profile->slug)}}">{{route('view',$profile->slug)}}</a></td>
-                                <td>{{$profile->is_sponsored?'Yes':'No'}}</td>
-                                <td>{{$profile->is_approved?'Approved':'Pending Approval'}}</td>
+                                <td>{{$image->profile->name}}</td>
+                                <td>
+                                    <a href="{{route('view',$image->profile->slug)}}">{{route('view',$image->profile->slug)}}</a>
+                                </td>
+                                <td>{{$image->profile->is_approved?'Approved':'Pending Approval'}}</td>
+                                <td><img src="{{$image->attachment_url}}" width="75" alt=""></td>
                                 <td class="d-flex">
-                                    @if($profile->is_sponsored)
-                                        <button class="btn btn-success ml-3">
-                                            <a class="text-white" href="{{route('admin.remove_sponsor',$profile->id)}}">Remove
-                                                Sponsor</a>
-                                        </button>
-                                    @else
-                                        <button class="btn btn-success ml-3">
-                                            <a class="text-white" href="{{route('admin.add_sponsor',$profile->id)}}">Add
-                                                Sponsor</a>
-                                        </button>
-                                    @endif
-                                    <button class="btn btn-warning ml-3">
-                                        <a href="{{route('admin.pages.edit',$profile->id)}}">Edit</a>
-                                    </button>
                                     <button class="btn btn-danger ml-3">
                                         <a class="text-white"
-                                           href="{{route('admin.profile.delete',$profile->id)}}">Delete</a>
+                                           href="{{route('admin.profile.delete',$profile->id)}}">Remove</a>
                                     </button>
                                 </td>
                             </tr>

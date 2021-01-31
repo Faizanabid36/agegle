@@ -20,11 +20,12 @@ Auth::routes(['register' => false]);
 
 Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::resource('pages', \App\Http\Controllers\PageController::class);
-    Route::get('profiles', [\App\Http\Controllers\PageController::class,'profiles'])->name('profiles');
-    Route::get('add_sponsor/{id}', [\App\Http\Controllers\PageController::class,'add_sponsor'])->name('add_sponsor');
-    Route::get('remove_sponsor/{id}', [\App\Http\Controllers\PageController::class,'remove_sponsor'])->name('remove_sponsor');
-    Route::post('store_sponsor/{id}', [\App\Http\Controllers\PageController::class,'store_sponsor'])->name('store_sponsor');
-    Route::get('profile/delete/{id}', [\App\Http\Controllers\PageController::class,'delete_profile'])->name('profile.delete');
+    Route::get('profiles', [\App\Http\Controllers\PageController::class, 'profiles'])->name('profiles');
+    Route::get('add_sponsor/{id}', [\App\Http\Controllers\PageController::class, 'add_sponsor'])->name('add_sponsor');
+    Route::get('remove_sponsor/{id}', [\App\Http\Controllers\PageController::class, 'remove_sponsor'])->name('remove_sponsor');
+    Route::post('store_sponsor/{id}', [\App\Http\Controllers\PageController::class, 'store_sponsor'])->name('store_sponsor');
+    Route::get('profile/delete/{id}', [\App\Http\Controllers\PageController::class, 'delete_profile'])->name('profile.delete');
+    Route::get('approve', [\App\Http\Controllers\PageController::class, 'approve'])->name('approve');
 });
 
 Route::get('/create-name', [App\Http\Controllers\ProfileController::class, 'create'])->name('create');

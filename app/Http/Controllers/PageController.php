@@ -59,7 +59,9 @@ class PageController extends Controller
 
     public function profiles()
     {
-        $profiles = Profile::paginate(15);
+        $profiles = Profile::when(request()->get('search'), function ($q) {
+            return $q->where('name', 'like', '%' . \request()->get('q') . '%');
+        })->paginate(15);
         return view('pages.profiles', compact('profiles'));
     }
 
@@ -101,5 +103,11 @@ class PageController extends Controller
     {
         Page::whereId($id)->delete();
         return back()->withSuccess('Page Deleted Successfully');
+    }
+
+    public function approve()
+    {
+        $images = ProfileExtra::whereApproved(0)->with('profile')->get();
+        return view('pages.approve', compact('images'));
     }
 }

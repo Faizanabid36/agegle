@@ -10,4 +10,9 @@ class ProfileExtra extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
 }

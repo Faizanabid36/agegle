@@ -72,7 +72,6 @@ class ProfileController extends Controller
                     $html .= 'name="fileinput" style="display:none"';
                     $html .= 'style="visibility: hidden;"/>';
                     $html .= '</form>';
-
                 }
                 $html .= '<h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">' . $profile->name . '</h4>';
                 $html .= '<p>Age ' . $page->age . ' ' . ($page->age + (int)$profile->started_year) . '</p>';
