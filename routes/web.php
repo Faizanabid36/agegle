@@ -25,7 +25,11 @@ Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
     Route::get('remove_sponsor/{id}', [\App\Http\Controllers\PageController::class, 'remove_sponsor'])->name('remove_sponsor');
     Route::post('store_sponsor/{id}', [\App\Http\Controllers\PageController::class, 'store_sponsor'])->name('store_sponsor');
     Route::get('profile/delete/{id}', [\App\Http\Controllers\PageController::class, 'delete_profile'])->name('profile.delete');
+    Route::get('profile/edit/{id}', [\App\Http\Controllers\PageController::class, 'edit_profile'])->name('profile.edit');
+    Route::post('profile/update/{id}', [\App\Http\Controllers\PageController::class, 'update_profile'])->name('profile.update');
     Route::get('approve', [\App\Http\Controllers\PageController::class, 'approve'])->name('approve');
+    Route::get('approve/image/{id}', [\App\Http\Controllers\PageController::class, 'approve_image'])->name('approve.image');
+    Route::get('decline/{id}', [\App\Http\Controllers\PageController::class, 'decline'])->name('decline');
 });
 
 Route::get('/create-name', [App\Http\Controllers\ProfileController::class, 'create'])->name('create');

@@ -51,10 +51,11 @@
                                         </button>
                                     @endif
                                     <button class="btn btn-warning ml-3">
-                                        <a href="{{route('admin.pages.edit',$profile->id)}}">Edit</a>
+                                        <a href="{{route('admin.profile.edit',$profile->id)}}">Edit</a>
                                     </button>
                                     <button class="btn btn-danger ml-3">
                                         <a class="text-white"
+                                           onclick="return confirm('Are you sure?')"
                                            href="{{route('admin.profile.delete',$profile->id)}}">Delete</a>
                                     </button>
                                 </td>

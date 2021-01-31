@@ -74,7 +74,7 @@ class ProfileController extends Controller
                     $html .= '</form>';
                 }
                 $html .= '<h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">' . $profile->name . '</h4>';
-                $html .= '<p>Age ' . $page->age . ' ' . ($page->age + (int)$profile->started_year) . '</p>';
+                $html .= '<p>Age ' . $page->age . ' ' . ((int)$profile->started_year + $page->age) . '</p>';
                 $html .= '</div>';
                 $html .= '</div>';
             }
@@ -90,7 +90,6 @@ class ProfileController extends Controller
         ProfileExtra::whereId($age_id)->update(['attachment_url' => asset('profile/' . $slug . '/' . $fileName)]);
         $age = ProfileExtra::whereId($age_id)->first();
         $profile = Profile::whereId($age->profile_id)->first();
-//        dd($profile );
         if (is_null($profile->disp_age) || $profile->disp_age < $age->age)
             Profile::whereId($age->profile_id)->update(['disp_age' => $age->age, 'disp_img' => $age->attachment_url]);
         return back();

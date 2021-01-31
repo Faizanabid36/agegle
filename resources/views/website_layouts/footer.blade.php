@@ -1,6 +1,6 @@
 <style>
     .footer {
-        height: 20vh;
+        height: 15vh;
         position: fixed;
         left: 0;
         bottom: 0;

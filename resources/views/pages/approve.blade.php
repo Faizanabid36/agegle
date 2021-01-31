@@ -40,11 +40,16 @@
                                     <a href="{{route('view',$image->profile->slug)}}">{{route('view',$image->profile->slug)}}</a>
                                 </td>
                                 <td>{{$image->profile->is_approved?'Approved':'Pending Approval'}}</td>
-                                <td><img src="{{$image->attachment_url}}" width="75" alt=""></td>
+                                <td><img src="{{$image->attachment_url}}" width="100" alt=""></td>
                                 <td class="d-flex">
+                                    <button class="btn btn-success ml-3">
+                                        <a class="text-white"
+                                           href="{{route('admin.approve.image',$image->id)}}">Approve</a>
+                                    </button>
                                     <button class="btn btn-danger ml-3">
                                         <a class="text-white"
-                                           href="{{route('admin.profile.delete',$profile->id)}}">Remove</a>
+                                           href="{{route('admin.decline',$image->id)}}"
+                                           onclick="return confirm('Are you sure?')">Reject</a>
                                     </button>
                                 </td>
                             </tr>
