@@ -2,8 +2,8 @@
 
 @section('content')
     <body>
-    <div class="section-container">
-        <div class="container">
+    <div style="padding: 25px 0px">
+        <div class="container" style="padding-bottom: 110px">
             <div class="row" id="content">
                 @if($profile->is_sponsored)
                     <div class="col-xs-4 col-md-3">
@@ -39,10 +39,10 @@
                                 </form>
                             @endif
                             <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">{{$profile->name}}</h4>
-                            <p>{{$profile_extra->age}} of {{count($profile->extra)}} years</p>
+                            <p>Age {{$profile_extra->age}} {{($profile_extra->age +(int)$profile->started_year)}}</p>
                         </div>
                     </div>
-                @endforeach
+                    @endforeach
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-md-12">

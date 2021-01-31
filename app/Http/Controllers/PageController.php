@@ -96,4 +96,10 @@ class PageController extends Controller
         );
         return back()->withSuccess('Sponsor Added Successfully');
     }
+
+    public function destroy($id)
+    {
+        Page::whereId($id)->delete();
+        return back()->withSuccess('Page Deleted Successfully');
+    }
 }

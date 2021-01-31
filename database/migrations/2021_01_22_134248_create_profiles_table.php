@@ -21,6 +21,8 @@ class CreateProfilesTable extends Migration
             $table->integer('ended_year')->nullable();
             $table->string('email')->nullable();
             $table->string('token');
+            $table->integer('disp_age')->nullable();
+            $table->string('disp_img')->nullable();
             $table->string('is_sponsored')->default(0);
             $table->timestamps();
         });

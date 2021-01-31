@@ -21,8 +21,8 @@
 </head>
 <style>
     .card {
-        margin-top: 3em;
-        padding: 40px;
+        margin-top: 30px;
+        padding: 30px;
         background: #fff;
         max-width: 100%;
         border-radius: 20px;
@@ -102,7 +102,7 @@
     </div>
 
     <div class="col-xs-12 col-md-4">
-        <img width="225" style="margin: 50px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt="" class="img-responsive">
+        <img width="225" style="margin: 20px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt="" class="img-responsive">
     </div>
     <div class="col-xs-12 col-md-4">
 

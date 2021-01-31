@@ -15,7 +15,7 @@ class ProfileController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:profiles',
-            'started_year' => 'required'
+            'started_year' => 'required|integer|min:1900'
         ]);
         $ended_year = (integer)!is_null($request->ended_year) ? $request->ended_year : now()->format('Y');
         if ($ended_year < $request->started_year)
@@ -49,7 +49,7 @@ class ProfileController extends Controller
     {
         $profile = Profile::whereSlug($slug)->firstOrFail();
         $count = $profile->is_sponsored ? 11 : 12;
-        $profile_extras = ProfileExtra::whereProfileId($profile->id)->latest()->paginate($count);
+        $profile_extras = ProfileExtra::whereProfileId($profile->id)->oldest()->paginate($count);
         if (\request()->ajax()) {
             $profile_extras = ProfileExtra::whereProfileId($profile->id)->latest()->paginate($count);
             $html = '';
@@ -75,7 +75,7 @@ class ProfileController extends Controller
 
                 }
                 $html .= '<h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">' . $profile->name . '</h4>';
-                $html .= '<p>' . $page->age . ' of ' . count($profile->extra) . ' years</p>';
+                $html .= '<p>Age ' . $page->age . ' ' . ($page->age + (int)$profile->started_year) . '</p>';
                 $html .= '</div>';
                 $html .= '</div>';
             }
@@ -89,6 +89,11 @@ class ProfileController extends Controller
         $fileName = time() . '.' . $request->fileinput->getClientOriginalExtension();
         $request->fileinput->move(public_path('profile/' . $slug . '/'), $fileName);
         ProfileExtra::whereId($age_id)->update(['attachment_url' => asset('profile/' . $slug . '/' . $fileName)]);
+        $age = ProfileExtra::whereId($age_id)->first();
+        $profile = Profile::whereId($age->profile_id)->first();
+//        dd($profile );
+        if (is_null($profile->disp_age) || $profile->disp_age < $age->age)
+            Profile::whereId($age->profile_id)->update(['disp_age' => $age->age, 'disp_img' => $age->attachment_url]);
         return back();
     }
 

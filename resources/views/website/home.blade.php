@@ -2,16 +2,20 @@
 
 @section('content')
     <body>
-    <div class="section-container">
-        <div class="container">
+    <div style="padding: 25px 0px">
+        <div class="container" style="padding-bottom: 110px">
             @if(count($pages)>0)
                 <div class="row" id="content">
                     @foreach($pages as $page)
                         <div class="col-xs-4 col-md-3">
-                            <a href="{{route('view',$page->slug)}}"><img src="{{$page->extra->first()->attachment_url}}" alt="{{$page->slug}}" class="img-responsive"></a>
+                            <a href="{{route('view',$page->slug)}}">
+                                <img style="height: 170px;width: 240px;"
+                                     src="{{$page->disp_img??$page->extra->first()->attachment_url}}"
+                                     alt="{{$page->slug}}"
+                                     class="img-responsive"></a>
                             <div style="margin-left: 10px;">
                                 <h4 class="txt" style="color: black;margin: 10px 0 0 0">{{ucfirst($page->name)}}</h4>
-                                <p>10 of 50 years</p>
+                                <p>Age {{$page->disp_age??$page->extra->count()}} of {{$page->extra->count()}} years</p>
                             </div>
                         </div>
                     @endforeach
