@@ -59,7 +59,9 @@ class PageController extends Controller
 
     public function profiles()
     {
-        $profiles = Profile::paginate(15);
+        $profiles = Profile::when(request()->get('search'), function ($q) {
+            return $q->where('name', 'like', '%' . \request()->get('q') . '%');
+        })->paginate(15);
         return view('pages.profiles', compact('profiles'));
     }
 
@@ -83,6 +85,22 @@ class PageController extends Controller
         return back()->withSuccess('Sponsor Removed Successfully');
     }
 
+    public function edit_profile($id)
+    {
+        $profile = Profile::whereId($id)->firstOrFail();
+        return view('pages.edit_profile', compact('profile'));
+    }
+
+    public function update_profile(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:profiles'
+        ]);
+        $request->merge(['slug'=>Str::slug($request->name)]);
+        Profile::whereId($id)->update(['name' => $request->name, 'slug' => $request->slug]);
+        return back()->withSuccess('Profile Updated');
+    }
+
     public function store_sponsor(Request $request, $id)
     {
         Profile::whereId($id)->update(['is_sponsored' => 1]);
@@ -101,5 +119,30 @@ class PageController extends Controller
     {
         Page::whereId($id)->delete();
         return back()->withSuccess('Page Deleted Successfully');
+    }
+
+    public function approve()
+    {
+        $images = ProfileExtra::where('attachment_url', '!=', asset('icons/unavailable.jpg'))
+            ->whereApproved(0)->with('profile')->get();
+        return view('pages.approve', compact('images'));
+    }
+
+    public function approve_image($id)
+    {
+        ProfileExtra::whereId($id)->update(['approved' => 1]);
+        return back()->withSuccess('Image Approved');
+    }
+
+    public function decline($id)
+    {
+        $profile_extra = ProfileExtra::find($id);
+        $profile = $profile_extra->profile()->update(['disp_age' => null, 'disp_img' => null]);
+        $profile_extra->approved = 0;
+        $profile_extra->attachment_url = asset('icons/unavailable.jpg');
+        $profile_extra->save();
+//        ProfileExtra::whereId($id)->update(['approved' => 0, 'attachment_url' => asset('icons/unavailable.jpg')]);
+
+        return back()->withSuccess('Image Declined');
     }
 }

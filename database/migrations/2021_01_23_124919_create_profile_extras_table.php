@@ -17,6 +17,7 @@ class CreateProfileExtrasTable extends Migration
             $table->id();
             $table->bigInteger('profile_id');
             $table->smallInteger('age');
+            $table->smallInteger('approved')->default(0);
             $table->string('attachment_url')->nullable();
             $table->timestamps();
         });

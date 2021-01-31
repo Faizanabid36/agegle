@@ -1,6 +1,6 @@
 <style>
     .footer {
-        height: 20vh;
+        height: 14vh;
         position: fixed;
         left: 0;
         bottom: 0;
@@ -12,7 +12,7 @@
 </style>
 
 <footer class="footer">
-    <div style="padding: 15px 0px 0px 0px">
+    <div style="padding: 0px 0px 0px 0px">
         <div class="container">
             <div class="row">
                 @foreach($pages as $page)
@@ -21,7 +21,7 @@
                             <img width="40" src="{{asset($page->page_icon)}}">
                         </div>
                         <a href="{{url($page->slug)}}" style="text-decoration: none">
-                            <p style="font-size: 20px;color: black" class="text-center txt txt1">
+                            <p style="font-size: 16px;color: black" class="text-center txt txt1">
                                 {{$page->title}}
                             </p>
                         </a>

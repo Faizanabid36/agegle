@@ -9,7 +9,7 @@
     .zoom:hover {
   -ms-transform: scale(1.5); /* IE 9 */
   -webkit-transform: scale(1.5); /* Safari 3-8 */
-  transform: scale(1.2); 
+  transform: scale(1.2);
 }
 @media only screen and (max-width: 500px) {
 .z{
@@ -27,11 +27,11 @@
                     @foreach($pages as $page)
                         <div class="col-xs-6 col-md-3">
                             <a href="{{route('view',$page->slug)}}">
-                                <img style="height: 170px;width: 240px;"  class="zoom z"
+                                <img style="height: 170px;width: 240px;object-fit: contain"  class="zoom z"
                                      src="{{$page->disp_img??$page->extra->first()->attachment_url}}"
                                      alt="{{$page->slug}}"
                                      class="img-responsive"></a>
-                            <div style="margin-left: 10px;" class="z">
+                            <div style="margin-left: 10px;text-align: center" class="z">
                                 <h4 class="txt" style="color: black;margin: 10px 0 0 0">{{ucfirst($page->name)}}</h4>
                                 <p>Age {{$page->disp_age??$page->extra->count()}} of {{$page->extra->count()}} years</p>
                             </div>
