@@ -130,12 +130,22 @@
   pointer-events: none;
   max-height: 280px;
   overflow-y: auto;
+  position: absolute
 }
 
 .search-input.active .autocom-box{
   padding: 10px 8px;
   opacity: 1;
   pointer-events: auto;
+  background-color: white;
+  border-bottom: 6px solid gray;
+ 
+  border-radius: 20px;
+  width: 93%;
+  
+}
+.autocom-box{
+    z-index: 9;
 }
 
 .autocom-box li{
@@ -145,9 +155,11 @@
   width: 100%;
   cursor: default;
   border-radius: 3px;
+  border-bottom: 1px solid rgb(97, 90, 90)
 }
 
 .search-input.active .autocom-box li{
+  
   display: block;
 }
 .autocom-box li:hover{
