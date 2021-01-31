@@ -49,44 +49,53 @@
                                        name="fileinput" style="display:none"
                                        style="visibility: hidden;"/>
                             </form>
+                        @else
+                            @auth()
+                                <a onclick="return confirm('Do you want to revert the Image?')"
+                                   href="{{route('admin.decline',$profile_extra->id)}}">
+                                    <img
+                                        src="{{asset('website/assets/images/trash.png')}}"
+                                        height="20px" width="20px" style="float: right;">
+                                </a>
+                            @endauth
                         @endif
                         <div style="text-align: center">
                             <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">{{$profile->name}}</h4>
                             <p>Age {{$profile_extra->age}} {{($profile_extra->age +(int)$profile->started_year)}}</p>
                         </div>
-                        </div>
                     </div>
-                    @endforeach
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-12 col-md-12">
-                    <h3 class="text-center txt txt1 " id="see_more">See More</h3>
                 </div>
+                @endforeach
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-md-12">
+                <h3 class="text-center txt txt1 " id="see_more">See More</h3>
             </div>
         </div>
     </div>
-    </body>
-    <script type="text/JavaScript"
-            src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
-    </script>
+</div>
+</body>
+<script type="text/JavaScript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js">
+</script>
 
-    <script>
-        $(function () {
-            $('.picture').on('click', function () {
-                $(`#fileinput-${this.id}`).trigger('click');
-                let id = this.id;
-                $(`#fileinput-${id}`).change(function (e) {
-                    $(`#add_image-${id}`).submit()
-                })
-            });
-        });
-        function inp(e)
-        {
-            $(`#fileinput-${e.id}`).trigger('click');
-            let id = e.id;
+<script>
+    $(function () {
+        $('.picture').on('click', function () {
+            $(`#fileinput-${this.id}`).trigger('click');
+            let id = this.id;
             $(`#fileinput-${id}`).change(function (e) {
                 $(`#add_image-${id}`).submit()
             })
-        }
-    </script>
+        });
+    });
+
+    function inp(e) {
+        $(`#fileinput-${e.id}`).trigger('click');
+        let id = e.id;
+        $(`#fileinput-${id}`).change(function (e) {
+            $(`#add_image-${id}`).submit()
+        })
+    }
+</script>
 @endsection
