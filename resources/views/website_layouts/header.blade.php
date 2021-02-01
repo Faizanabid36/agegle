@@ -101,56 +101,57 @@
   margin: 150px auto;
 }
 
-.wrapper .search-input{
-  background: #fff;
-  width: 100%;
-  border-radius: 5px;
-  position: relative;
-  border-color: gray;
-  box-shadow: 0px 1px 5px 3px rgba(0,0,0,0.12);
-}
+    .wrapper .search-input {
+        background: #fff;
+        width: 100%;
+        border-radius: 5px;
+        position: relative;
+        border-color: gray;
+        box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+    }
 
-.search-input input{
-  height: 55px;
-  width: 100%;
-  outline: none;
-  padding: 0 60px 0 20px;
-  font-size: 18px;
-  border: 2px solid #b9aeae;
-  border-radius: 57px;
-}
+    .search-input input {
+        height: 45px;
+        width: 100%;
+        outline: none;
+        padding: 0 60px 0 20px;
+        font-size: 18px;
+        border: 2px solid #b9aeae;
+        border-radius: 57px;
+    }
 
-/* .search-input.active input{
-  border-radius: 5px 5px 0 0;
-} */
+    /* .search-input.active input{
+      border-radius: 5px 5px 0 0;
+    } */
 
 .search-input .autocom-box{
   padding: 0;
   opacity: 0;
   pointer-events: none;
-  max-height: 280px;
-  overflow-y: auto;
-  position: absolute
+    max-height: 280px;
+    overflow-y: auto;
+    position: absolute
 }
 
-.search-input.active .autocom-box{
-  padding: 10px 8px;
-  opacity: 1;
-  pointer-events: auto;
-  background-color: white;
-  border-bottom: 6px solid gray;
- 
-  border-radius: 20px;
-  width: 93%;
-  
-}
-.autocom-box{
-    z-index: 9;
-}
+    .search-input.active .autocom-box {
+        padding: 10px 8px;
+        opacity: 1;
+        pointer-events: auto;
+        background-color: white;
+        /*border-bottom: 1px solid #a3a3a3;*/
+        box-shadow: 0 0 3px black;
+        border-radius: 15px;
+        width: 93%;
 
-.autocom-box li{
-  list-style: none;
-  padding: 8px 12px;
+    }
+
+    .autocom-box {
+        z-index: 9;
+    }
+
+    .autocom-box li {
+        list-style: none;
+        padding: 8px 12px;
   display: none;
   width: 100%;
   cursor: default;
@@ -159,25 +160,25 @@
 }
 
 .search-input.active .autocom-box li{
-  
+
   display: block;
 }
 .autocom-box li:hover{
-  background: #efefef;
+    background: #efefef;
 }
 
-.search-input .icon{
-  position: absolute;
-  right: 32px;
-  top: 0px;
-  height: 20px;
-  width: 25px;
-  text-align: center;
-  line-height: 55px;
-  font-size: 20px;
-  color: #644bff;
-  cursor: pointer;
-}
+    .search-input .icon {
+        position: absolute;
+        right: 32px;
+        top: 0px;
+        height: 20px;
+        width: 25px;
+        text-align: center;
+        line-height: 45px;
+        font-size: 20px;
+        color: #644bff;
+        cursor: pointer;
+    }
 
 
 </style>
@@ -189,7 +190,8 @@
     </div>
 
     <div class="col-xs-12 col-md-4">
-        <img width="225" style="margin: 20px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt="" class="img-responsive">
+        <img width="225" style="margin: 20px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt=""
+             class="img-responsive">
     </div>
     <div class="col-xs-12 col-md-4">
 
@@ -197,57 +199,24 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-12 col-md-3 ">
-
-    </div>
-
+    <div class="col-xs-12 col-md-3 "></div>
     <div class="col-xs-12 col-md-6 ">
-
-{{-- 
-        <input class="form-control  rounded-pill " type="search" placeholder="Sesdaach for the name"
-               id="example-search-input2" style="width: 100%; border-radius: 20px; text-align: center;"> --}}
-               <div class="search-input">
-                <a href="" target="_blank" hidden></a>
+        {{--
+                <input class="form-control  rounded-pill " type="search" placeholder="Sesdaach for the name"
+                       id="example-search-input2" style="width: 100%; border-radius: 20px; text-align: center;"> --}}
+        <div class="search-input">
+            <form action="{{route('search')}}">
+                <a href="" hidden></a>
                 <input type="text" placeholder="Search for the name..">
-                <div class="autocom-box">
-                 <script>let suggestions = [
-                    "Channel",
-                    "CodingLab",
-                    "CodingNepal",
-                    "YouTube",
-                    "YouTuber",
-                    "YouTube Channel",
-                    "Blogger",
-                    "Bollywood",
-                    "Vlogger",
-                    "Vechiles",
-                    "Facebook",
-                    "Freelancer",
-                    "Facebook Page",
-                    "Designer",
-                    "Developer",
-                    "Web Designer",
-                    "Web Developer",
-                    "Login Form in HTML & CSS",
-                    "How to learn HTML & CSS",
-                    "How to learn JavaScript",
-                    "How to became Freelancer",
-                    "How to became Web Designer",
-                    "How to start Gaming Channel",
-                    "How to start YouTube Channel",
-                    "What does HTML stands for?",
-                    "What does CSS stands for?",
-                ];
+            </form>
+            <div class="autocom-box">
+                <script>let suggestions = <?php echo $suggestions?>;
                 </script>
-                </div>
-                <div class="icon"><img src="{{asset('website/assets/images/vectorpaint (2).svg')}}" alt=""></div>
-              </div>
-
-
+            </div>
+            <div class="icon"><img src="{{asset('website/assets/images/vectorpaint (2).svg')}}" alt=""></div>
+        </div>
     </div>
-    <div class="col-xs-12 col-md-3 ">
-
-    </div>
+    <div class="col-xs-12 col-md-3 "></div>
 </div>
 <script>
     // getting all required elements
@@ -262,20 +231,20 @@ let webLink;
 inputBox.onkeyup = (e)=>{
     let userData = e.target.value; //user enetered data
     let emptyArray = [];
-    if(userData){
-        icon.onclick = ()=>{
-            webLink = "https://www.google.com/search?q=" + userData;
+    if (userData) {
+        icon.onclick = () => {
+            webLink = "{{route('search')}}?q=" + userData;
             linkTag.setAttribute("href", webLink);
             console.log(webLink);
             linkTag.click();
         }
-        emptyArray = suggestions.filter((data)=>{
+        emptyArray = suggestions.filter((data) => {
             //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
-            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase()); 
+            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
         });
-        emptyArray = emptyArray.map((data)=>{
+        emptyArray = emptyArray.map((data) => {
             // passing return data inside li tag
-            return data = '<li>'+ data +'</li>';
+            return data = '<li>' + data + '</li>';
         });
         searchWrapper.classList.add("active"); //show autocomplete box
         showSuggestions(emptyArray);
@@ -293,7 +262,7 @@ function select(element){
     let selectData = element.textContent;
     inputBox.value = selectData;
     icon.onclick = ()=>{
-        webLink = "https://www.google.com/search?q=" + selectData;
+        webLink = "{{route('search')}}?q=" + selectData;
         linkTag.setAttribute("href", webLink);
         linkTag.click();
     }

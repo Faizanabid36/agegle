@@ -141,8 +141,6 @@ class PageController extends Controller
         $profile_extra->approved = 0;
         $profile_extra->attachment_url = asset('icons/unavailable.jpg');
         $profile_extra->save();
-//        ProfileExtra::whereId($id)->update(['approved' => 0, 'attachment_url' => asset('icons/unavailable.jpg')]);
-
         return back()->withSuccess('Image Declined');
     }
 }

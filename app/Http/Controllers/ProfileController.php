@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Models\ProfileExtra;
 use App\Models\SponsorAd;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -22,6 +23,7 @@ class ProfileController extends Controller
             return back()->withErrors(['Ended Date Should be Greater Than Started Date']);
         $request->merge(['token' => Str::random('10'), 'slug' => Str::slug($request->name)]);
         $profile = Profile::create($request->except('_token'));
+        Cache::forget('suggestions');
         $age = $ended_year - $request->started_year;
         for ($x = 1; $x <= $age; $x++)
             ProfileExtra::create([
@@ -98,7 +100,9 @@ class ProfileController extends Controller
 
     public function home_page()
     {
-        $pages = Profile::latest()->paginate(8);
+        $pages = Profile::when(\request()->get('q'), function ($q) {
+            return $q->where('name', 'like', '%' . \request()->get('q') . '%');
+        })->latest()->paginate(8);
         if (\request()->ajax()) {
             $pages = Profile::latest()->paginate(8);
             $html = '';
@@ -107,7 +111,7 @@ class ProfileController extends Controller
                 $html .= '<a href="' . route('view', $page->slug) . '">';
                 $html .= '<img src="' . $page->extra->first()->attachment_url . '" alt="' . $page->slug . '" class="img-responsive"></a>';
                 $html .= '<div style="margin-left: 10px;">';
-                $html .= '<h4 class="txt" style="color: black;margin: 10px 0 0 0">'.ucfirst($page->name).'</h4>';
+                $html .= '<h4 class="txt" style="color: black;margin: 10px 0 0 0">' . ucfirst($page->name) . '</h4>';
                 $html .= '<p>10 of 50 years</p>';
                 $html .= '</div>';
                 $html .= '</div>';

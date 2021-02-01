@@ -42,5 +42,6 @@ Route::get('/about-us', [App\Http\Controllers\HomeController::class, 'about'])->
 Route::get('/contact-us', [App\Http\Controllers\HomeController::class, 'contact'])->name('contact');
 Route::get('delete_profile/{slug}/{token}', [App\Http\Controllers\ProfileController::class, 'delete_profile'])->name('delete_profile');
 
+Route::get('search', [App\Http\Controllers\ProfileController::class, 'home_page'])->name('search');
 
 
