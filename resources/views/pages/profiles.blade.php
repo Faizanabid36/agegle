@@ -24,9 +24,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Link</th>
-                            <th scope="col">Ad attached</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Link To Profile</th>
+                            <th scope="col">Ad Attached</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -37,7 +36,6 @@
                                 <td>{{$profile->name}}</td>
                                 <td><a href="{{route('view',$profile->slug)}}">{{route('view',$profile->slug)}}</a></td>
                                 <td>{{$profile->is_sponsored?'Yes':'No'}}</td>
-                                <td>{{$profile->is_approved?'Approved':'Pending Approval'}}</td>
                                 <td class="d-flex">
                                     @if($profile->is_sponsored)
                                         <button class="btn btn-success ml-3">
@@ -64,6 +62,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{$profiles->links()}}
             </div>
         </div>
 @endsection

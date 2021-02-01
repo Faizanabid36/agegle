@@ -1,17 +1,6 @@
 @extends('website_layouts.main')
 
 @section('content')
-<style>
-    .zoom {
-        transition: transform .8s;
-    }
-
-    .zoom:hover {
-        -ms-transform: scale(1.5); /* IE 9 */
-        -webkit-transform: scale(1.5); /* Safari 3-8 */
-        transform: scale(1.2);
-    }
-</style>
 <body>
 <div style="padding: 25px 0px">
     <div class="container" style="padding-bottom: 110px">
@@ -19,7 +8,7 @@
             @if($profile->is_sponsored)
                 <div class="col-xs-6 col-md-3">
                     <a href="{{$profile->sponsor_ad->ad_url}}">
-                        <img style="height: 170px;width: 240px;"
+                        <img style="height: 170px;width: 240px;object-fit: contain"
                              src="{{$profile->sponsor_ad->ad_attachment}}" alt=""
                              class="img-responsive zoom">
                     </a>
@@ -34,7 +23,6 @@
                     <img style="height: 170px;width: 240px;object-fit: contain"
                          src="{{$profile_extra->approved?$profile_extra->attachment_url:asset('icons/unavailable.jpg')}}"
                          class="img-responsive zoom">
-
                     <div style="margin-left: 10px; margin-right: 10px">
                         @if($profile_extra->attachment_url==asset('icons/unavailable.jpg'))
                             <img onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"

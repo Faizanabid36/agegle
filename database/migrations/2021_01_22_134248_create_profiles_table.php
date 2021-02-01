@@ -23,6 +23,7 @@ class CreateProfilesTable extends Migration
             $table->string('token');
             $table->integer('disp_age')->nullable();
             $table->string('disp_img')->nullable();
+            $table->integer('profile_extras_id')->nullable();
             $table->string('is_sponsored')->default(0);
             $table->timestamps();
         });

@@ -1,16 +1,3 @@
-<style>
-    .footer {
-        height: 14vh;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: white;
-        color: white;
-        text-align: center;
-    }
-</style>
-
 <footer class="footer">
     <div style="padding: 0px 0px 0px 0px">
         <div class="container">
@@ -20,8 +7,8 @@
                         <div class="fa-container">
                             <img width="40" src="{{asset($page->page_icon)}}">
                         </div>
-                        <a href="{{url($page->slug)}}" style="text-decoration: none">
-                            <p style="font-size: 16px;color: black" class="text-center txt txt1">
+                        <a href="{{url($page->slug)}}" class="blue-color" style="text-decoration: none">
+                            <p style="font-size: 16px;color: black" class="text-center txt txt1 btn-link blue-color">
                                 {{$page->title}}
                             </p>
                         </a>

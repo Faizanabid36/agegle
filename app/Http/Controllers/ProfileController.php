@@ -6,8 +6,6 @@ use App\Models\Profile;
 use App\Models\ProfileExtra;
 use App\Models\SponsorAd;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -21,24 +19,11 @@ class ProfileController extends Controller
         $ended_year = (integer)!is_null($request->ended_year) ? $request->ended_year : now()->format('Y');
         if ($ended_year < $request->started_year)
             return back()->withErrors(['Ended Date Should be Greater Than Started Date']);
-        $request->merge(['token' => Str::random('10'), 'slug' => Str::slug($request->name)]);
+        $request->merge([
+            'token' => Str::random('10'),
+            'slug' => Str::slug($request->name)
+        ]);
         $profile = Profile::create($request->except('_token'));
-        Cache::forget('suggestions');
-        $age = $ended_year - $request->started_year;
-        for ($x = 1; $x <= $age; $x++)
-            ProfileExtra::create([
-                'profile_id' => $profile->id,
-                'age' => $x,
-                'attachment_url' => asset('icons/unavailable.jpg'),
-                'created_at' => now()->subSeconds($x),
-            ]);
-        if (!is_null($request->email)) {
-            $details = [
-                'name' => ucfirst($request->name),
-                'url' => url()->route('delete_profile', [$profile->slug, $profile->token])];
-
-            Mail::to($request->email)->send(new \App\Mail\SendDeleteLinkMail($details));
-        }
         return redirect()->route('view', $profile->slug);
     }
 
@@ -53,30 +38,40 @@ class ProfileController extends Controller
         $count = $profile->is_sponsored ? 11 : 12;
         $profile_extras = ProfileExtra::whereProfileId($profile->id)->oldest()->paginate($count);
         if (\request()->ajax()) {
-            $profile_extras = ProfileExtra::whereProfileId($profile->id)->latest()->paginate($count);
+            $profile_extras = ProfileExtra::whereProfileId($profile->id)->oldest()->paginate($count);
             $html = '';
-            foreach ($profile_extras as $page) {
-                $html .= '<div class="col-xs-4 col-md-3">';
-                $html .= '<img style="height: 170px;width: 240px;" src="' . $page->attachment_url . '"';
-                $html .= 'class="img-responsive">';
-
-                $html .= '<div style="margin-left: 10px; margin-right: 10px">';
-                if ($page->attachment_url == asset('icons/unavailable.jpg')) {
-                    $html .= '<img onclick="inp(this)" onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"';
+            foreach ($profile_extras as $profile_extra) {
+                $html .= '<div class="col-xs-6 col-md-3" >';
+                $html .= '<img style = "height: 170px;width: 240px;object-fit: contain"';
+                $html .= 'src = "' . ($profile_extra->approved ? $profile_extra->attachment_url : asset('icons/unavailable.jpg')) . '"';
+                $html .= 'class="img-responsive zoom" >';
+                $html .= '<div style = "margin-left: 10px; margin-right: 10px" >';
+                if ($profile_extra->attachment_url == asset('icons/unavailable.jpg')) {
+                    $html .= '<img onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"';
                     $html .= 'src="' . asset('website/assets/images/arrow.svg') . '" name="pic"';
-                    $html .= 'id="' . $page->id . '" class="picture"';
+                    $html .= 'id="' . $profile_extra->id . '" class="picture" onclick="inp(this)"';
                     $html .= 'height="20px" width="20px" style="float: right">';
-                    $html .= '<form id="add_image-' . $page->id . '" enctype="multipart/form-data"';
-                    $html .= 'action="' . route('add_image', [$profile->slug, $page->id]) . '"';
+                    $html .= '<form id="add_image-' . $profile_extra->id . '" enctype="multipart/form-data"';
+                    $html .= 'action="' . route('add_image', [$profile->slug, $profile_extra->id]) . '"';
                     $html .= 'method="POST">';
                     $html .= csrf_field();
-                    $html .= '<input class="fileinput" id="fileinput-' . $page->id . '" type="file"';
+                    $html .= '<input class="fileinput" id="fileinput-' . $profile_extra->id . '" type="file"';
                     $html .= 'name="fileinput" style="display:none"';
                     $html .= 'style="visibility: hidden;"/>';
                     $html .= '</form>';
+                } else {
+                    if (isset(auth()->user()->id)) {
+                        $html .= '<a onclick="return confirm(\'Do you want to revert the Image?\')"';
+                        $html .= 'href="' . route('admin.decline', $profile_extra->id) . '">';
+                        $html .= '<img src="' . asset('website/assets/images/trash.png') . '"';
+                        $html .= 'height="20px" width="20px" style="float: right;">';
+                        $html .= '</a>';
+                    }
                 }
+                $html .= '<div style="text-align: center">';
                 $html .= '<h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">' . $profile->name . '</h4>';
-                $html .= '<p>Age ' . $page->age . ' ' . ((int)$profile->started_year + $page->age) . '</p>';
+                $html .= '<p>Age ' . $profile_extra->age . ' ' . $profile_extra->year . '</p>';
+                $html .= '</div>';
                 $html .= '</div>';
                 $html .= '</div>';
             }
@@ -91,9 +86,10 @@ class ProfileController extends Controller
         $request->fileinput->move(public_path('profile/' . $slug . '/'), $fileName);
         ProfileExtra::whereId($age_id)->update(['attachment_url' => asset('profile/' . $slug . '/' . $fileName)]);
         $age = ProfileExtra::whereId($age_id)->first();
-        $profile = Profile::whereId($age->profile_id)->first();
-        if (is_null($profile->disp_age) || $profile->disp_age < $age->age)
-            Profile::whereId($age->profile_id)->update(['disp_age' => $age->age, 'disp_img' => $age->attachment_url]);
+
+        Profile::whereId($age->profile_id)->update([
+            'profile_extras_id' => $age->id
+        ]);
         return back();
     }
 
@@ -107,12 +103,17 @@ class ProfileController extends Controller
             $pages = Profile::latest()->paginate(8);
             $html = '';
             foreach ($pages as $page) {
-                $html .= '<div class="col-xs-4 col-md-3">';
+                $attachment = $page->display_image->approved ? $page->display_image->attachment_url : asset('icons/unavailable.jpg');
+                $html .= '<div class="col-xs-6 col-md-3">';
                 $html .= '<a href="' . route('view', $page->slug) . '">';
-                $html .= '<img src="' . $page->extra->first()->attachment_url . '" alt="' . $page->slug . '" class="img-responsive"></a>';
-                $html .= '<div style="margin-left: 10px;">';
+                $html .= '<img style="height: 170px;width: 240px;object-fit: contain" class="zoom z"';
+                $html .= 'src="' . $attachment . '"';
+                $html .= 'class="img-responsive">';
+                $html .= '</a>';
+                $html .= '<div style="margin-left: 10px;text-align: center" class="z">';
                 $html .= '<h4 class="txt" style="color: black;margin: 10px 0 0 0">' . ucfirst($page->name) . '</h4>';
-                $html .= '<p>10 of 50 years</p>';
+                $html .= '<p>Age ' . ($page->display_image->approved ? $page->display_image->age : $page->extra->count()) . ' of '
+                    . $page->extra->count() . ' years</p>';
                 $html .= '</div>';
                 $html .= '</div>';
             }
