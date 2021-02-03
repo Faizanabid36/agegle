@@ -24,6 +24,17 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<style>
+    @media only screen and (max-width: 600px) {
+  .mob {
+    margin: 0px auto !important;
+    margin-top: 7px !important;
+    margin-bottom: 7px !important;
+    height: 69px;
+    width: 178px;
+  }
+}
+</style>
 <div class="row">
     <div class="col-xs-12 col-md-4">
 
@@ -31,7 +42,7 @@
 
     <div class="col-xs-12 col-md-4">
         <img width="225" style="margin: 20px auto" src="{{asset('website/assets/images/logo.PNG')}}" alt=""
-             class="img-responsive">
+             class="img-responsive mob">
     </div>
     <div class="col-xs-12 col-md-4">
 

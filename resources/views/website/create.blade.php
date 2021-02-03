@@ -1,7 +1,13 @@
 @extends('website_layouts.main')
 
 @section('content')
-
+<style>
+     @media only screen and (max-width: 600px){
+        .card {
+    margin-top: 19px;
+    padding: 14px;
+     }}
+</style>
     <div class="">
         <div class="container">
             <div class="row">
