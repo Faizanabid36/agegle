@@ -41,8 +41,11 @@ class ProfileController extends Controller
             $profile_extras = ProfileExtra::whereProfileId($profile->id)->oldest()->paginate($count);
             $html = '';
             foreach ($profile_extras as $profile_extra) {
+                $img = $profile_extra->approved ? $profile_extra->attachment_url : asset('icons/unavailable.jpg');
                 $html .= '<div class="col-xs-6 col-md-3" >';
-                $html .= '<img style = "height: 170px;width: 240px;object-fit: contain"';
+                $html .= '<img
+                onclick="preview(\'' . $img . '\')";
+                style = "height: 170px;width: 240px;object-fit: contain"';
                 $html .= 'src = "' . ($profile_extra->approved ? $profile_extra->attachment_url : asset('icons/unavailable.jpg')) . '"';
                 $html .= 'class="img-responsive zoom" >';
                 $html .= '<div style = "margin-left: 10px; margin-right: 10px" >';
@@ -85,11 +88,6 @@ class ProfileController extends Controller
         $fileName = time() . '.' . $request->fileinput->getClientOriginalExtension();
         $request->fileinput->move(public_path('profile/' . $slug . '/'), $fileName);
         ProfileExtra::whereId($age_id)->update(['attachment_url' => asset('profile/' . $slug . '/' . $fileName)]);
-        $age = ProfileExtra::whereId($age_id)->first();
-
-        Profile::whereId($age->profile_id)->update([
-            'profile_extras_id' => $age->id
-        ]);
         return back();
     }
 

@@ -33,6 +33,13 @@
                                            class="form-control"
                                            id="title" placeholder="Enter title">
                                 </div>
+                                <div class="form-group">
+                                    <label for="ended_year">Life Ended Year</label>
+                                    <input value="{{$profile->ended_year}}" name="ended_year"
+                                           type="text"
+                                           class="form-control"
+                                           id="ended_year" placeholder="Death Year(optional)">
+                                </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </form>
 

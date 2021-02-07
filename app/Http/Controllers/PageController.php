@@ -60,7 +60,7 @@ class PageController extends Controller
     public function profiles()
     {
         $profiles = Profile::when(request()->get('search'), function ($q) {
-            return $q->where('name', 'like', '%' . \request()->get('q') . '%');
+            return $q->where('name', 'like', '%' . \request()->get('search') . '%');
         })->paginate(15);
         return view('pages.profiles', compact('profiles'));
     }
@@ -93,11 +93,20 @@ class PageController extends Controller
 
     public function update_profile(Request $request, $id)
     {
+        $profile = Profile::whereId($id)->firstOrFail();
         $this->validate($request, [
-            'name' => 'required|unique:profiles'
+            'name' => 'required',
         ]);
-        $request->merge(['slug'=>Str::slug($request->name)]);
-        Profile::whereId($id)->update(['name' => $request->name, 'slug' => $request->slug]);
+        if ($profile->name != $request->name) {
+            $this->validate($request, [
+                'name' => 'unique:profiles'
+            ]);
+        }
+        if (isset($request->ended_year)) {
+            $p = ProfileExtra::whereProfileId($profile->id)->where('year', '>', $request->ended_year)->delete();
+        }
+        $request->merge(['slug' => Str::slug($request->name)]);
+        Profile::whereId($id)->update(['name' => $request->name, 'slug' => $request->slug, 'ended_year' => $request->ended_year]);
         return back()->withSuccess('Profile Updated');
     }
 
@@ -131,6 +140,10 @@ class PageController extends Controller
     public function approve_image($id)
     {
         ProfileExtra::whereId($id)->update(['approved' => 1]);
+        $age = ProfileExtra::whereId($id)->first();
+        Profile::whereId($age->profile_id)->update([
+            'profile_extras_id' => $age->id
+        ]);
         return back()->withSuccess('Image Approved');
     }
 
