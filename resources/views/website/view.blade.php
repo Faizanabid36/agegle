@@ -201,6 +201,9 @@
 </script>
 
 <script>
+    @if(Session::has('success'))
+        alert('Photo Will be Published Once Approved')
+    @endif
     $(function () {
         $('.picture').on('click', function () {
             $(`#fileinput-${this.id}`).trigger('click');

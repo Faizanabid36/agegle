@@ -88,7 +88,7 @@ class ProfileController extends Controller
         $fileName = time() . '.' . $request->fileinput->getClientOriginalExtension();
         $request->fileinput->move(public_path('profile/' . $slug . '/'), $fileName);
         ProfileExtra::whereId($age_id)->update(['attachment_url' => asset('profile/' . $slug . '/' . $fileName)]);
-        return back();
+        return back()->withSuccess('Photo will be published once approved');
     }
 
 
