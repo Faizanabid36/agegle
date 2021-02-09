@@ -36,7 +36,9 @@
                         </a>
                         <div style="margin-left: 5px;text-align: center">
                             <h4 class="txt" style="color: black;">{{ucfirst($page->name)}}</h4>
-                            <p>Age {{$page->display_image->approved ? $page->display_image->age : $page->extra->count()}} of {{$page->extra->count()}} years</p>
+                            <p>
+                                Age {{$page->display_image->approved ? $page->display_image->age : $page->extra->count()}}
+                                of {{$page->extra->count()}} years</p>
                         </div>
                     </div>
                 @endforeach

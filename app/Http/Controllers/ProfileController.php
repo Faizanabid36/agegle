@@ -78,9 +78,13 @@ class ProfileController extends Controller
                 $html .= '</div>';
                 $html .= '</div>';
             }
-            return compact('profile', 'profile_extras', 'html');
+            $lastPage = $profile_extras->lastPage();
+            $currentPage = $profile_extras->currentPage();
+            return compact('profile', 'profile_extras', 'currentPage', 'lastPage', 'html');
         }
-        return view('website.view', compact('profile', 'profile_extras'));
+        $lastPage = $profile_extras->lastPage();
+        $currentPage = $profile_extras->currentPage();
+        return view('website.view', compact('profile', 'currentPage', 'lastPage', 'profile_extras'));
     }
 
     public function add_image(Request $request, $slug, $age_id)
@@ -115,9 +119,13 @@ class ProfileController extends Controller
                 $html .= '</div>';
                 $html .= '</div>';
             }
-            return compact('pages','html');
+            $lastPage = $pages->lastPage();
+            $currentPage = $pages->currentPage();
+            return compact('pages', 'currentPage', 'lastPage', 'html');
         }
-        return view('website.home', compact('pages'));
+        $lastPage = $pages->lastPage();
+        $currentPage = $pages->currentPage();
+        return view('website.home', compact('pages', 'currentPage', 'lastPage'));
     }
 
     public function delete_profile(Request $request, $slug, $token)

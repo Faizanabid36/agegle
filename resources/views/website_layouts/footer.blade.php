@@ -43,6 +43,11 @@
                         alert('No More Data Display')
                     } else {
                         $('#content').append($(data.html))
+                        console.log(data.currentPage)
+                        if (data.currentPage === data.lastPage)
+                        {
+                            $('#see_more').remove()
+                        }
                     }
                 }, error: function (data) {
                     console.log(data)
