@@ -29,13 +29,13 @@
                 @foreach($pages as $page)
                     <div class="col-xs-6 col-md-3">
                         <a href="{{route('view',$page->slug)}}">
-                            <img style="height: 170px;width: 240px;object-fit: contain" class="zoom z"
+                            <img style="height: 180px;width: 300px;object-fit: contain"
                                  src="{{$page->display_image->approved ?$page->display_image->attachment_url:asset('icons/unavailable.jpg')}}"
                                  alt="{{$page->slug}}"
-                                 class="img-responsive">
+                                 class="img-responsive zoom">
                         </a>
-                        <div style="margin-left: 10px;text-align: center" class="z">
-                            <h4 class="txt" style="color: black;margin: 10px 0 0 0">{{ucfirst($page->name)}}</h4>
+                        <div style="margin-left: 5px;text-align: center">
+                            <h4 class="txt" style="color: black;">{{ucfirst($page->name)}}</h4>
                             <p>Age {{$page->display_image->approved ? $page->display_image->age : $page->extra->count()}} of {{$page->extra->count()}} years</p>
                         </div>
                     </div>

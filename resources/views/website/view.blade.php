@@ -129,16 +129,16 @@
             @endif
             @foreach($profile_extras as $profile_extra)
                 <div class="col-xs-6 col-md-3">
-                    <img style="height: 170px;width: 240px;object-fit: contain"
+                    <img style="height: 180px;width: 300px;object-fit: contain"
                          onclick="preview('{{$profile_extra->approved?$profile_extra->attachment_url:asset('icons/unavailable.jpg')}}')"
                          src="{{$profile_extra->approved?$profile_extra->attachment_url:asset('icons/unavailable.jpg')}}"
                          class="img-responsive zoom">
-                    <div style="margin-left: 10px; margin-right: 10px">
-                        @if($profile_extra->attachment_url==asset('icons/unavailable.jpg'))
+                    <div style="margin-left: 8px; margin-right: 0px">
+                        @if(\Str::contains($profile_extra->attachment_url, 'icons/unavailable.jpg'))
                             <img onmouseover="activeIcon(this)" onmouseout="revertIcon(this)"
                                  src="{{asset('website/assets/images/arrow.svg')}}" name="pic"
-                                 id="{{$profile_extra->id}}" class="picture "
-                                 height="20px" width="20px" style="float: right">
+                                 id="{{$profile_extra->id}}" class="picture"
+                                 height="20" width="20" style="float: right">
                             <form id="add_image-{{$profile_extra->id}}" enctype="multipart/form-data"
                                   action="{{route('add_image',[$profile->slug,$profile_extra->id])}}"
                                   method="POST">
@@ -153,13 +153,13 @@
                                    href="{{route('admin.decline',$profile_extra->id)}}">
                                     <img
                                         src="{{asset('website/assets/images/trash.png')}}"
-                                        height="20px" width="20px" style="float: right;">
+                                        height="20" width="20" style="float: right;">
                                 </a>
                             @endauth
                         @endif
                         <div style="text-align: center">
-                            <h4 class="txt m" style="color: black;margin: 10px 0px 0px 0px">{{$profile->name}}</h4>
-                            <p class="txt m">
+                            <h4 class="txt" style="color: black;margin: 10px 0px 0px 0px">{{$profile->name}}</h4>
+                            <p class="txt">
                                 Age {{$profile_extra->age}} {{($profile_extra->age +(int)$profile->started_year)}}</p>
                         </div>
                     </div>
